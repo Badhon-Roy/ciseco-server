@@ -27,6 +27,7 @@ async function run() {
 
         const categoryCollection = client.db("cisecoDB").collection("categories");
         const productsCollection = client.db("cisecoDB").collection("products");
+        const sortCollection = client.db("cisecoDB").collection("sorts");
 
 
         // category related api
@@ -45,6 +46,12 @@ async function run() {
             res.send(result)
         })
 
+        // sort related api
+
+        app.get('/sorts', async (req, res) => {
+            const result = await sortCollection.find().toArray();
+            res.send(result)
+        })
 
 
 
