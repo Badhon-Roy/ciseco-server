@@ -29,6 +29,7 @@ async function run() {
         const productsCollection = client.db("cisecoDB").collection("products");
         const sortCollection = client.db("cisecoDB").collection("sorts");
         const commentCollection = client.db("cisecoDB").collection("comment");
+        const addProductsCollection = client.db("cisecoDB").collection("addProducts");
 
 
         // category related api
@@ -66,6 +67,21 @@ async function run() {
         app.post('/comment' , async (req , res)=>{
             const comment = req.body;
             const result = await commentCollection.insertOne(comment)
+            res.send(result)
+        })
+
+        // add products related api
+        app.get('/addProducts', async (req, res) => {
+            let query = {};
+            if (req?.query?.email) {
+                query = { email: req?.query?.email }
+            }
+            const result = await addProductsCollection.find(query).toArray();
+            res.send(result)
+        })
+        app.post('/addProducts' , async (req , res)=>{
+            const product = req.body;
+            const result = await addProductsCollection.insertOne(product)
             res.send(result)
         })
        
